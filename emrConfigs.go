@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/jenirainerpdx/emrConfigsCLI/services"
 	"os"
 )
 
@@ -16,6 +18,13 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Printf("value of nodeCountPtr is: %d\nvalue of instanceTypePtr: %s\n",
-		*nodeCountPtr, *instanceTypePtr)
+	configs := services.GenerateCustomConfigs(*nodeCountPtr, *instanceTypePtr)
+
+	configJson, err := json.Marshal(configs)
+
+	if err != nil {
+		fmt.Println("An error occurred trying to create json:  ", err)
+	}
+
+	fmt.Printf("%s\n", string(configJson))
 }
