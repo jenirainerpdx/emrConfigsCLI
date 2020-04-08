@@ -1,10 +1,9 @@
-package services_test
+package test
 
 import (
 	"github.com/jenirainerpdx/emrConfigsCLI/domain"
 	"github.com/jenirainerpdx/emrConfigsCLI/services"
 	"testing"
-
 )
 
 func TestConfigurationGenerator(t *testing.T) {
@@ -37,7 +36,7 @@ func TestConfigurationGenerator(t *testing.T) {
 }
 
 var execPerInstanceTests = []struct{
-	vcpu int
+	vcpu int64
 	expected int
 } {
 	{8, 1},
@@ -58,9 +57,9 @@ func TestGetExecutorsPerInstance(t *testing.T) {
 }
 
 var totalMemoryTests = []struct{
-	memory int
+	memory int64
 	executorsPerInstance int
-	expected int
+	expected int64
 }{
 	{16, 1, 15},
 	{72, 3, 23},
@@ -80,22 +79,22 @@ func TestGetTotalExecutorMemory(t *testing.T) {
 }
 
 var sparkMemTests = []struct{
-	totalExecMemory int
-	expected int
+	totalExecMemory int64
+	expected int64
 }{
-	{1, 900},
-	{15, 13500},
-	{23, 20700},
-	{85, 76500},
+	{1, 0},
+	{15, 13},
+	{23, 20},
+	{85, 76},
 
 }
 
 func TestGetSparkMemory(t *testing.T) {
-	for _, tt := range sparkMemTests {
-		actual := services.GetSparkMemory(tt.totalExecMemory)
-		if actual != tt.expected {
+	for _, testCase := range sparkMemTests {
+		actual := services.GetSparkMemory(testCase.totalExecMemory)
+		if actual != testCase.expected {
 			t.Errorf("GetSparkMemory for totalExecutorMemory of %d:  expected %d, actual %d",
-				tt.totalExecMemory, tt.expected, actual)
+				testCase.totalExecMemory, testCase.expected, actual)
 		}
 	}
 }
