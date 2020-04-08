@@ -10,7 +10,6 @@ import (
 
 func RefreshNodeDetailsFromAws() map[string]NodeDetail {
 
-	println("brrrrriiiing - calling aws")
 	nodeDetailMap := make(map[string]NodeDetail)
 
 	sess, sessionErr := session.NewSession(
